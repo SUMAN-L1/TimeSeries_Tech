@@ -10,7 +10,6 @@ import base64
 from scipy.stats import norm
 from jinja2 import Template
 import warnings
-from scipy.stats import norm
 warnings.filterwarnings("ignore")
 
 # App Title
@@ -105,7 +104,8 @@ if uploaded_file:
         - Monte Carlo VaR at 95%%: {{ mc }}%%
         - Monte Carlo CVaR (Expected Shortfall) at 95%%: {{ cvar }}%%
 
-        Based on this, we recommend initiating policy measures such as buffer stock planning or early market alerts for {{ market }} especially during volatile periods."")
+        Based on this, we recommend initiating policy measures such as buffer stock planning or early market alerts for {{ market }} especially during volatile periods.
+        """)
         brief = brief_template.render(market=col, hist=round((np.exp(hist_var)-1)*100, 2),
                                       param=round((np.exp(param_var)-1)*100, 2),
                                       mc=round((np.exp(mc_var)-1)*100, 2),
@@ -123,12 +123,10 @@ if uploaded_file:
         st.pyplot(fig)
 
         # Interpretation
-        st.markdown(f"""
-        #### 📌 Interpretation for {col}:
-        - The **historical VaR** implies a weekly loss of up to **{(np.exp(hist_var)-1)*100:.2f}%** in 5% of the worst cases.
-        - The **parametric VaR** uses normality assumptions and gives **{(np.exp(param_var)-1)*100:.2f}%**.
-        - The **Monte Carlo simulation** shows a possible loss beyond **{(np.exp(mc_var)-1)*100:.2f}%**, with an **expected loss (CVaR)** of **{(np.exp(mc_cvar)-1)*100:.2f}%** in extreme weeks.
-        """)
+        st.markdown("#### 📌 Interpretation for {}:".format(col))
+        st.markdown("- The **historical VaR** implies a weekly loss of up to **{:.2f}%** in 5% of the worst cases.".format((np.exp(hist_var)-1)*100))
+        st.markdown("- The **parametric VaR** uses normality assumptions and gives **{:.2f}%**.".format((np.exp(param_var)-1)*100))
+        st.markdown("- The **Monte Carlo simulation** shows a possible loss beyond **{:.2f}%**, with an **expected loss (CVaR)** of **{:.2f}%** in extreme weeks.".format((np.exp(mc_var)-1)*100, (np.exp(mc_cvar)-1)*100))
 
     # Summary Table
     if results:
