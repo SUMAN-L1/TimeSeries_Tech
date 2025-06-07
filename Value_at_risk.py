@@ -13,7 +13,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # App Title
-st.set_page_config(page_title="Value_at_risk models devloped by Suman_econ_UAS(B)", layout="wide")
+st.set_page_config(page_title="Value_at_risk Analysis App devloped by Suman_econ_UAS(B)", layout="wide")
 st.title("📉 Value at Risk Models Developed by Suman_econ_UAS(B)")
 
 # Instructions
