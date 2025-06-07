@@ -7,7 +7,7 @@ import seaborn as sns
 from io import StringIO
 import datetime as dt
 import base64
-
+from scipy.stats import norm
 # App Title
 st.set_page_config(page_title="Value_at_risk models devloped by Suman_econ_UAS(B)", layout="wide")
 st.title("📉 Value at Risk Models Developed by Suman_econ_UAS(B)")
