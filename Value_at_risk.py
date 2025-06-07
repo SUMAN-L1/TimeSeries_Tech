@@ -8,6 +8,11 @@ from io import StringIO
 import datetime as dt
 import base64
 from scipy.stats import norm
+from jinja2 import Template
+import warnings
+from scipy.stats import norm
+warnings.filterwarnings("ignore")
+
 # App Title
 st.set_page_config(page_title="Value_at_risk models devloped by Suman_econ_UAS(B)", layout="wide")
 st.title("📉 Value at Risk Models Developed by Suman_econ_UAS(B)")
@@ -54,6 +59,7 @@ if uploaded_file:
         analysis_cols = [selected_col]
 
     results = []
+    briefs = []
 
     for col in analysis_cols:
         series = df[col].copy()
@@ -91,6 +97,21 @@ if uploaded_file:
             "Monte Carlo CVaR (%)": round((np.exp(mc_cvar)-1)*100, 2),
         })
 
+        # Automated Policy Brief
+        brief_template = Template("""
+        In the recent analysis for {{ market }}, we found the following risk indicators:
+        - Historical VaR at 95%%: {{ hist }}%%
+        - Parametric VaR at 95%%: {{ param }}%%
+        - Monte Carlo VaR at 95%%: {{ mc }}%%
+        - Monte Carlo CVaR (Expected Shortfall) at 95%%: {{ cvar }}%%
+
+        Based on this, we recommend initiating policy measures such as buffer stock planning or early market alerts for {{ market }} especially during volatile periods."")
+        brief = brief_template.render(market=col, hist=round((np.exp(hist_var)-1)*100, 2),
+                                      param=round((np.exp(param_var)-1)*100, 2),
+                                      mc=round((np.exp(mc_var)-1)*100, 2),
+                                      cvar=round((np.exp(mc_cvar)-1)*100, 2))
+        briefs.append((col, brief))
+
         # Plot histogram
         fig, ax = plt.subplots()
         sns.histplot(sim_returns, bins=50, kde=True, ax=ax, color='orange')
@@ -114,6 +135,13 @@ if uploaded_file:
         st.subheader("📋 Model Comparison Table")
         result_df = pd.DataFrame(results)
         st.dataframe(result_df.set_index("Market"))
+
+    # Policy Briefs
+    if briefs:
+        st.subheader("📝 Automated Policy Briefs")
+        for market, text in briefs:
+            with st.expander(f"Policy Brief for {market}"):
+                st.markdown(text)
 
 else:
     st.info("Upload your weekly crop market data to begin analysis.")
