@@ -10,8 +10,8 @@ from jinja2 import Template
 import warnings
 warnings.filterwarnings("ignore") 
 
-st.set_page_config(page_title="Value_at_risk Analysis App developed by Suman_econ_UAS(B)", layout="wide")
-st.title("📉 Value at Risk Models Developed by Suman_econ_UAS(B)")
+st.set_page_config(page_title="Value_at_risk Analysis App [Suman_econ_UAS(B)]", layout="wide")
+st.title("📉 Value at Risk Analysis App Developed by Suman_econ_UAS(B)")
 
 st.markdown("""
 ### 📌 Instructions Before Upload:
