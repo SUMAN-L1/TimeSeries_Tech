@@ -15,9 +15,10 @@ st.title("📉 Value at Risk Models Developed by Suman_econ_UAS(B)")
 
 st.markdown("""
 ### 📌 Instructions Before Upload:
-- Ensure your data contains a `Date` column.
+- it will be automatically converted to datetime and set as index.
 - File format: `.csv`, `.xls`, or `.xlsx`
-- Data should contain at least one price series and ideally 'Arrivals'.
+- Data should contain at least one price series
+-Missing values will be automatically handled by imputation or dropped if minor.
 """)
 
 uploaded_file = st.file_uploader("Upload your crop market data", type=["csv", "xls", "xlsx"])
